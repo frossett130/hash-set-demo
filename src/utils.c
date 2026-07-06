@@ -1,8 +1,23 @@
 #include "../lib/hashset.h"
 #include <stdlib.h>
 #include <string.h>
+#define P 53
 
-size_t hashcode(char *, size_t);
+size_t expp(size_t n) {
+    if (n) return P * expp(n - 1);
+    return 1;
+}
+
+size_t hashcode(char * s, size_t m) {
+    unsigned char * us = (unsigned char *) s;
+    unsigned char p;
+    size_t count = 0;
+    size_t retval = 0;
+    while ((p = us[count])) {
+        retval += p * expp(count++);
+    }
+    return retval % m;
+}
 
 int containsrec(char * value, struct node ** noderef) {
     if (!((*noderef) -> value)) {
@@ -17,7 +32,6 @@ int containsrec(char * value, struct node ** noderef) {
     * noderef = (* noderef) -> next;
     return containsrec(value, noderef);
 }
-
 
 int nodecontains(hashset_t hashset, char * value, struct node ** noderef) {
     * noderef = hashset.array + hashcode(value, hashset.capacity);
