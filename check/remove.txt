@@ -1,0 +1,22 @@
+#include "../lib/hashset.h"
+
+#suite shouldWorkWhenAnElementIsRemovedFromHashSet
+
+#test shouldReturnZeroWhenNonPresentElementRemoved
+    hashset_t hashset = init(16);
+    ck_assert_int_eq(16, hashset.capacity);
+    ck_assert_int_eq(1, push(&hashset, "hello"));
+    ck_assert_int_eq(1, push(&hashset, "world"));
+    ck_assert_int_eq(1, push(&hashset, "foobar"));
+    ck_assert_int_eq(0, remove(&hashset, "tree"));
+    ck_assert_int_eq(3, hashset.size);
+
+#test shouldReturnOneWhenPresentElementRemoved
+    hashset_t hashset = init(16);
+    ck_assert_int_eq(16, hashset.capacity);
+    ck_assert_int_eq(1, push(&hashset, "hello"));
+    ck_assert_int_eq(1, push(&hashset, "world"));
+    ck_assert_int_eq(1, push(&hashset, "foobar"));
+    ck_assert_int_eq(1, remove(&hashset, "foobar"));
+    ck_assert_int_eq(2, hashset.size);
+    ck_assert_int_eq(0, ispresent(hashset, "foobar"));

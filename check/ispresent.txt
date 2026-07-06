@@ -1,5 +1,8 @@
+#include<stdlib.h>
+#define MOD 128
 #include "../lib/hashset.h"
-#include <stdlib.h>
+
+size_t hashcode(char *, size_t);
 
 int nodecontains(hashset_t, char *, struct node **);
 
@@ -18,6 +21,26 @@ hashset_t generateHashset() {
     retval.array = nodes;
     return retval;
 }
+
+#suite makeSureHashCodesAreProducedConsistently
+
+#test shouldCreateMethodsWithConsistentHashCodes
+    size_t hashCode0 = hashcode("hello", MOD);
+    size_t hashCode1 = hashcode("world", MOD);
+    size_t hashCode2 = hashcode("foobar", MOD);
+    size_t hashCode3 = hashcode("hello", MOD);
+
+    ck_assert_int_eq(hashCode0, hashCode3);
+    ck_assert_int_ne(hashCode0, hashCode1);
+    ck_assert_int_ne(hashCode0, hashCode2);
+    ck_assert_int_ne(hashCode1, hashCode2);
+
+#test shouldCreateHashNumberLessThanMod
+    ck_assert_int_lt(hashcode("hello", MOD), MOD);
+    ck_assert_int_lt(hashcode("whatever", MOD), MOD);
+    ck_assert_int_lt(hashcode("another string", MOD), MOD);
+    ck_assert_int_lt(hashcode("another string again", MOD), MOD);
+
 
 #suite nodecontainsFunctionShouldWorkAsExpected
 

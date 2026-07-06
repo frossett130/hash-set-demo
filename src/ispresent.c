@@ -37,3 +37,8 @@ int nodecontains(hashset_t hashset, char * value, struct node ** noderef) {
     * noderef = hashset.array + hashcode(value, hashset.capacity);
     return containsrec(value, noderef);
 }
+
+int ispresent(hashset_t hashset, char * value) {
+    struct node * _;
+    return nodecontains(hashset, value, &_);
+}
