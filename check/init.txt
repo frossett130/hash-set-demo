@@ -8,7 +8,12 @@
     ck_assert_int_eq(N, hashset.capacity);
     ck_assert_int_eq(0, hashset.size);
     ck_assert_ptr_nonnull(hashset.array);
-    ck_assert_ptr_null(hashset.array[0]);
-    ck_assert_ptr_null(hashset.array[1]);
-    ck_assert_ptr_null(hashset.array[2]);
-    ck_assert_ptr_null(hashset.array[3]);
+    ck_assert_ptr_null(hashset.array[0].value);
+    ck_assert_ptr_null(hashset.array[0].prev);
+    ck_assert_ptr_null(hashset.array[0].next);
+    ck_assert_ptr_null(hashset.array[1].value);
+    ck_assert_ptr_null(hashset.array[1].prev);
+    ck_assert_ptr_null(hashset.array[1].next);
+    ck_assert_ptr_null(hashset.array[2].value);
+    ck_assert_ptr_null(hashset.array[2].prev);
+    ck_assert_ptr_null(hashset.array[2].next);

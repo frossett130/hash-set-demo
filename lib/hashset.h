@@ -1,3 +1,9 @@
+/**
+ * Node structure of a doubly linked list.
+ * @param value the string value, null if empty.
+ * @param prev the previous node.
+ * @param next the next node.
+ */
 struct node {
     char * value;
     struct node * prev;
@@ -5,7 +11,7 @@ struct node {
 };
 
 typedef struct hashset {
-    struct node ** array;
+    struct node * array;
     unsigned long capacity;
     unsigned long size;
 } hashset_t;

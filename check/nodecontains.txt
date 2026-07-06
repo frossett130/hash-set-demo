@@ -1,18 +1,21 @@
 #include "../lib/hashset.h"
+#include <stdlib.h>
 
 int nodecontains(hashset_t, char *, struct node **);
 
 hashset_t generateHashset() {
     hashset_t retval = init(1);
-    struct node node0 = {"hello", NULL, NULL};
-    struct node node1 = {"world", NULL, NULL};
-    struct node node2 = {"fun", NULL, NULL};
-    node0.next = &node1;
-    node1.prev = &node0;
-    node1.next = &node2;
-    node2.prev = &node1;
+    struct node * nodes = calloc(3, sizeof(struct node));
+    nodes[0].value = "hello";
+    nodes[1].value = "world";
+    nodes[2].value = "fun";
+    nodes[0].next = nodes + 1;
+    nodes[1].prev = nodes;
+    nodes[1].next = nodes + 2;
+    nodes[2].prev = nodes + 1;
+    retval.capacity = 1;
     retval.size = 3;
-    retval.array[0] = &node0;
+    retval.array = nodes;
     return retval;
 }
 
@@ -39,5 +42,11 @@ hashset_t generateHashset() {
 #test shouldReturnLastNodeWhenNotPresentWordQueried
     struct node * noderef;
     hashset_t hashset = generateHashset();
-    ck_assert_int_eq(1, nodecontains(hashset, "foobar", &noderef));
+    ck_assert_int_eq(0, nodecontains(hashset, "foobar", &noderef));
     ck_assert_str_eq("fun", noderef -> value);
+
+#test shouldReturnEmptyNodeWhenNothingIsInTheArray
+    struct node * noderef;
+    hashset_t hashset = init(1);
+    ck_assert_int_eq(0, nodecontains(hashset, "foobar", &noderef));
+    ck_assert_ptr_null(noderef -> value);
