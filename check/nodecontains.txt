@@ -1,0 +1,43 @@
+#include "../lib/hashset.h"
+
+int nodecontains(hashset_t, char *, struct node **);
+
+hashset_t generateHashset() {
+    hashset_t retval = init(1);
+    struct node node0 = {"hello", NULL, NULL};
+    struct node node1 = {"world", NULL, NULL};
+    struct node node2 = {"fun", NULL, NULL};
+    node0.next = &node1;
+    node1.prev = &node0;
+    node1.next = &node2;
+    node2.prev = &node1;
+    retval.size = 3;
+    retval.array[0] = &node0;
+    return retval;
+}
+
+#suite nodecontainsFunctionShouldWorkAsExpected
+
+#test shouldReturnHelloWhenQueried
+    struct node * noderef;
+    hashset_t hashset = generateHashset();
+    ck_assert_int_eq(1, nodecontains(hashset, "hello", &noderef));
+    ck_assert_str_eq("hello", noderef -> value);
+
+#test shouldReturnWorldWhenQueried
+    struct node * noderef;
+    hashset_t hashset = generateHashset();
+    ck_assert_int_eq(1, nodecontains(hashset, "world", &noderef));
+    ck_assert_str_eq("world", noderef -> value);
+
+#test shouldReturnFunWhenQueried
+    struct node * noderef;
+    hashset_t hashset = generateHashset();
+    ck_assert_int_eq(1, nodecontains(hashset, "fun", &noderef));
+    ck_assert_str_eq("fun", noderef -> value);
+
+#test shouldReturnLastNodeWhenNotPresentWordQueried
+    struct node * noderef;
+    hashset_t hashset = generateHashset();
+    ck_assert_int_eq(1, nodecontains(hashset, "foobar", &noderef));
+    ck_assert_str_eq("fun", noderef -> value);

@@ -1,0 +1,14 @@
+#include "../lib/hashset.h"
+#define N 4
+
+#suite shouldPerformInitializationTask
+
+#test shouldInitialiseBlankSet
+    hashset_t hashset = init(N);
+    ck_assert_int_eq(N, hashset.capacity);
+    ck_assert_int_eq(0, hashset.size);
+    ck_assert_ptr_nonnull(hashset.array);
+    ck_assert_ptr_null(hashset.array[0]);
+    ck_assert_ptr_null(hashset.array[1]);
+    ck_assert_ptr_null(hashset.array[2]);
+    ck_assert_ptr_null(hashset.array[3]);
