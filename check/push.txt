@@ -29,11 +29,13 @@ hashset_t generateHashset() {
 #test shouldEditTheSizeOfTheSetAccordingly
     hashset_t hashset = generateHashset();
     ck_assert_int_eq(1, push(&hashset, "another string"));
-    ck_assert_int_eq(4, hashset.size);
+    ck_assert_int_eq(1, push(&hashset, "a beautiful string"));
+    ck_assert_int_eq(5, hashset.size);
     ck_assert_int_eq(1, ispresent(hashset, "hello"));
     ck_assert_int_eq(1, ispresent(hashset, "world"));
     ck_assert_int_eq(1, ispresent(hashset, "fun"));
     ck_assert_int_eq(1, ispresent(hashset, "another string"));
+    ck_assert_int_eq(1, ispresent(hashset, "a beautiful string"));
     ck_assert_int_eq(0, ispresent(hashset, "nothing"));
     ck_assert_int_eq(8, hashset.capacity);
 

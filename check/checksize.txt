@@ -1,0 +1,33 @@
+#include "../lib/hashset.h"
+#include <stdlib.h>
+
+hashset_t generateHashset() {
+    hashset_t retval = init(1);
+    struct node * hello = malloc(sizeof(struct node));
+    struct node * world = malloc(sizeof(struct node));
+    struct node * fun = malloc(sizeof(struct node));
+    hello -> value = "hello";
+    world -> value = "world";
+    fun -> value = "fun";
+    hello -> next = world;
+    world -> next = fun;
+    fun -> next = NULL;
+    hello -> prev = NULL;
+    world -> prev = hello;
+    fun -> prev = world;
+    retval.array[0] = hello;
+    retval.size = 3;
+    return retval;
+}
+
+#suite shouldBeAbleToCheckTheSizeOfASetAndChangeIt
+
+#test shouldNotChangeSizeToCorrectlyInitialisedSet
+    hashset_t hashset = generateHashset();
+    ck_assert_int_eq(0, checksize(&hashset));
+
+#test shouldChangeSizeToFaultySet
+    hashset_t hashset = generateHashset();
+    hashset.size = 0;
+    ck_assert_int_eq(1, checksize(&hashset));
+    ck_assert_int_eq(3, hashset.size);

@@ -66,6 +66,8 @@ int ispresent(hashset_t, char *);
 void clear(hashset_t *);
 
 /**
- * Checks the size of the hash set, if
+ * Check and fix the size in the cache.
+ * @param hashset the pointer to the hashset;
+ * @return 1 if the size was altered, 0 if nothing was done.
  */
 int checksize(hashset_t *);
