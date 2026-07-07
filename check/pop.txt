@@ -8,7 +8,7 @@
     ck_assert_int_eq(1, push(&hashset, "hello"));
     ck_assert_int_eq(1, push(&hashset, "world"));
     ck_assert_int_eq(1, push(&hashset, "foobar"));
-    ck_assert_int_eq(0, remove(&hashset, "tree"));
+    ck_assert_int_eq(0, pop(&hashset, "tree"));
     ck_assert_int_eq(3, hashset.size);
 
 #test shouldReturnOneWhenPresentElementRemoved
@@ -17,6 +17,6 @@
     ck_assert_int_eq(1, push(&hashset, "hello"));
     ck_assert_int_eq(1, push(&hashset, "world"));
     ck_assert_int_eq(1, push(&hashset, "foobar"));
-    ck_assert_int_eq(1, remove(&hashset, "foobar"));
+    ck_assert_int_eq(1, pop(&hashset, "foobar"));
     ck_assert_int_eq(2, hashset.size);
     ck_assert_int_eq(0, ispresent(hashset, "foobar"));

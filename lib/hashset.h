@@ -11,7 +11,7 @@ struct node {
 };
 
 typedef struct hashset {
-    struct node * array;
+    struct node ** array;
     unsigned long capacity;
     unsigned long size;
 } hashset_t;
@@ -26,8 +26,10 @@ hashset_t init(unsigned long);
 
 int push(hashset_t *, char *);
 
-int remove(hashset_t *, char *);
+int pop(hashset_t *, char *);
 
 int ispresent(hashset_t, char *);
 
 int clear(hashset_t *);
+
+int checksize(hashset_t *);

@@ -3,17 +3,20 @@
 
 hashset_t generateHashset() {
     hashset_t retval = init(1);
-    struct node * nodes = calloc(3, sizeof(struct node));
-    nodes[0].value = "hello";
-    nodes[1].value = "world";
-    nodes[2].value = "fun";
-    nodes[0].next = nodes + 1;
-    nodes[1].prev = nodes;
-    nodes[1].next = nodes + 2;
-    nodes[2].prev = nodes + 1;
-    retval.capacity = 1;
+    struct node * hello = malloc(sizeof(struct node));
+    struct node * world = malloc(sizeof(struct node));
+    struct node * fun = malloc(sizeof(struct node));
+    hello -> value = "hello";
+    world -> value = "world";
+    fun -> value = "fun";
+    hello -> next = world;
+    world -> next = fun;
+    fun -> next = NULL;
+    hello -> prev = NULL;
+    world -> prev = hello;
+    fun -> prev = world;
+    retval.array[0] = hello;
     retval.size = 3;
-    retval.array = nodes;
     return retval;
 }
 
@@ -26,10 +29,25 @@ hashset_t generateHashset() {
 #test shouldEditTheSizeOfTheSetAccordingly
     hashset_t hashset = generateHashset();
     ck_assert_int_eq(1, push(&hashset, "another string"));
-    ck_assert_int_eq(8, hashset.capacity);
     ck_assert_int_eq(4, hashset.size);
     ck_assert_int_eq(1, ispresent(hashset, "hello"));
     ck_assert_int_eq(1, ispresent(hashset, "world"));
     ck_assert_int_eq(1, ispresent(hashset, "fun"));
     ck_assert_int_eq(1, ispresent(hashset, "another string"));
     ck_assert_int_eq(0, ispresent(hashset, "nothing"));
+    ck_assert_int_eq(8, hashset.capacity);
+
+#test shouldPushElementsConsisently
+    hashset_t hashset = init(4);
+    ck_assert_int_eq(1, push(&hashset, "hello"));
+    ck_assert_int_eq(1, push(&hashset, "world"));
+    ck_assert_int_eq(2, hashset.size);
+    int actualsize = 0;
+    for (int i = 0; i < hashset.capacity; i++) {
+        struct node * noderef = hashset.array[i];
+        while (noderef) {
+            actualsize ++;
+            noderef = noderef -> next;
+        }
+    }
+    ck_assert_int_eq(2, actualsize);

@@ -20,10 +20,10 @@ size_t hashcode(char * s, size_t m) {
 }
 
 int containsrec(char * value, struct node ** noderef) {
-    if (!((*noderef) -> value)) {
+    if (!(* noderef)) {
         return 0;
     }
-    if (!strcmp(value, (*noderef) -> value)) {
+    if (!strcmp(value, (* noderef) -> value)) {
         return 1;
     }
     if (!(*noderef) -> next) {
@@ -34,7 +34,7 @@ int containsrec(char * value, struct node ** noderef) {
 }
 
 int nodecontains(hashset_t hashset, char * value, struct node ** noderef) {
-    * noderef = hashset.array + hashcode(value, hashset.capacity);
+    * noderef = hashset.array[hashcode(value, hashset.capacity)];
     return containsrec(value, noderef);
 }
 
