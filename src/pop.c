@@ -1,5 +1,4 @@
 #include "../lib/hashset.h"
-#include <stdlib.h>
 
 int nodecontains(hashset_t, char *, struct node **);
 size_t hashcode(char *, size_t);

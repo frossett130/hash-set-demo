@@ -1,14 +1,6 @@
 #include "../lib/hashset.h"
-#include <stdlib.h>
 #include <string.h>
 #define P 53
-
-size_t expp(size_t n)
-{
-    if (n)
-        return P * expp(n - 1);
-    return 1;
-}
 
 size_t hashcode(char *s, size_t m)
 {
@@ -16,9 +8,11 @@ size_t hashcode(char *s, size_t m)
     unsigned char p;
     size_t count = 0;
     size_t retval = 0;
-    while ((p = us[count]))
+    size_t multiplier = 1;
+    while ((p = us[count++]))
     {
-        retval += p * expp(count++);
+        retval += ((size_t)p) * multiplier;
+        multiplier *= P;
     }
     return retval % m;
 }

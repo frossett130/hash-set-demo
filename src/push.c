@@ -1,5 +1,4 @@
 #include "../lib/hashset.h"
-#include <stdlib.h>
 #define MAX_RATIO 0.75
 #define MAX_CAPACITY 1000000
 
@@ -8,8 +7,7 @@ size_t hashcode(char *, size_t);
 
 void increasesize(hashset_t *hashset)
 {
-    int size = hashset->size++;
-    int newsize = size;
+    int newsize = hashset->size + 1;
     int capacity = hashset->capacity;
     int newcapacity = capacity;
     while ((float)newsize / (float)newcapacity > MAX_RATIO && newcapacity < MAX_CAPACITY)
@@ -31,6 +29,10 @@ void increasesize(hashset_t *hashset)
         clear(hashset);
         *hashset = newset;
     }
+    else
+    {
+        hashset->size = newsize;
+    }
 }
 
 int push(hashset_t *hashset, char *value)
@@ -41,6 +43,10 @@ int push(hashset_t *hashset, char *value)
         return 0;
     }
     struct node *newnode = malloc(sizeof(struct node));
+    if (!newnode)
+    {
+        return -1;
+    }
     if (noderef)
     {
         noderef->next = newnode;
@@ -48,10 +54,6 @@ int push(hashset_t *hashset, char *value)
     else
     {
         hashset->array[hashcode(value, hashset->capacity)] = newnode;
-    }
-    if (!newnode)
-    {
-        return -1;
     }
     newnode->prev = noderef;
     newnode->value = value;

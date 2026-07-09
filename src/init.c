@@ -1,7 +1,6 @@
-#include <stdlib.h>
 #include "../lib/hashset.h"
 
-hashset_t init(unsigned long initialcapacity)
+hashset_t init(size_t initialcapacity)
 {
     hashset_t retval;
     retval.array = calloc(initialcapacity, sizeof(void *));

@@ -1,3 +1,5 @@
+#include<stdlib.h>
+
 /**
  * Node structure of a doubly linked list.
  * @param value the string value, null if empty.
@@ -20,8 +22,8 @@ struct node
 typedef struct hashset
 {
     struct node **array;
-    unsigned long capacity;
-    unsigned long size;
+    size_t capacity;
+    size_t size;
 } hashset_t;
 
 /**
@@ -30,7 +32,7 @@ typedef struct hashset
  * will be set to zero if no available capacity encountered.
  * @return the initialised hash set.
  */
-hashset_t init(unsigned long);
+hashset_t init(size_t);
 
 /**
  * Push an element into the set.

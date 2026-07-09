@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "../lib/hashset.h"
 
 void freerec(struct node *node)

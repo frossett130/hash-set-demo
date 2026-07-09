@@ -19,7 +19,9 @@ TSS := $(patsubst $(CHK_PATH), $(TSS_PATH), $(CHK))
 TST := $(patsubst $(CHK_PATH), $(TST_PATH), $(CHK))
 RPT := $(patsubst $(CHK_PATH), $(RPT_PATH), $(CHK))
 
-CHECKMK := $(shell command -v checkmk 2> /dev/null)
+CFLAGS += -MMD -MP
+DEP := $(BLD:.o=.d)
+
 
 all: test $(OUT)
 
@@ -42,13 +44,13 @@ $(TST_PATH): $(TSS_PATH) $(BLD)
 	$(CC) $(CFLAGS) $< $(BLD) -o $@ -lcheck
 
 $(TSS_PATH): $(CHK_PATH)
-ifndef CHECKMK
-	$(error checkmk is not available, please install it)
-endif
+	@command -v checkmk || { echo "checkmk is not available, please install it"; exit 1; }
 	mkdir -p $(@D)
 	checkmk $< > $@
 
 clean:
-	rm -rf $(OUT) build test
+	rm -rf $(OUT) build test *.d
+
+-include $(DEP)
 
 .PHONY: all test clean

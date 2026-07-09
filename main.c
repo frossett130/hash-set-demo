@@ -7,7 +7,9 @@ int main(int argc, char **argv)
     push(&hashset, "hello");
     push(&hashset, "world");
     push(&hashset, "fun");
-    for (int i = 0; i < argc; i++)
+    push(&hashset, "no");
+    pop(&hashset, "no");
+    for (int i = 1; i < argc; i++)
     {
         if (ispresent(hashset, argv[i]))
         {
@@ -18,5 +20,6 @@ int main(int argc, char **argv)
             printf("`%s` is not present\n", argv[i]);
         }
     }
+    clear(&hashset);
     return 0;
 }
