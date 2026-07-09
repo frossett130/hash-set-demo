@@ -1,10 +1,24 @@
 #include "../lib/hashset.h"
 
-hashset_t init(size_t initialcapacity)
+hashset_t *init(size_t initialcapacity)
 {
-    hashset_t retval;
-    retval.array = calloc(initialcapacity, sizeof(void *));
-    retval.capacity = retval.array ? initialcapacity : 0;
-    retval.size = 0;
+    if (!initialcapacity)
+    {
+        return NULL;
+    }
+    hashset_t *retval = malloc(sizeof(hashset_t));
+    if (!retval)
+    {
+        return NULL;
+    }
+    struct node **array;
+    array = retval->array = calloc(initialcapacity, sizeof(void *));
+    if (!array)
+    {
+        free(retval);
+        return NULL;
+    }
+    retval->capacity = initialcapacity;
+    retval->size = 0;
     return retval;
 }

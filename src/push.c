@@ -5,10 +5,10 @@
 int nodecontains(hashset_t, char *, struct node **);
 size_t hashcode(char *, size_t);
 
-void increasesize(hashset_t *hashset)
+void increasesize(hashset_t **hashset)
 {
-    int newsize = hashset->size + 1;
-    int capacity = hashset->capacity;
+    int newsize = (*hashset)->size + 1;
+    int capacity = (*hashset)->capacity;
     int newcapacity = capacity;
     while ((float)newsize / (float)newcapacity > MAX_RATIO && newcapacity < MAX_CAPACITY)
     {
@@ -16,29 +16,29 @@ void increasesize(hashset_t *hashset)
     }
     if (capacity != newcapacity)
     {
-        hashset_t newset = init(newcapacity);
+        hashset_t *newset = init(newcapacity);
         for (int i = 0; i < capacity; i++)
         {
-            struct node *noderef = hashset->array[i];
+            struct node *noderef = (*hashset)->array[i];
             while (noderef)
             {
                 push(&newset, noderef->value);
                 noderef = noderef->next;
             }
         }
-        clear(hashset);
+        freehashset(*hashset);
         *hashset = newset;
     }
     else
     {
-        hashset->size = newsize;
+        (*hashset)->size = newsize;
     }
 }
 
-int push(hashset_t *hashset, char *value)
+int push(hashset_t **hashset, char *value)
 {
     struct node *noderef;
-    if (nodecontains(*hashset, value, &noderef))
+    if (nodecontains(**hashset, value, &noderef))
     {
         return 0;
     }
@@ -53,7 +53,7 @@ int push(hashset_t *hashset, char *value)
     }
     else
     {
-        hashset->array[hashcode(value, hashset->capacity)] = newnode;
+        (*hashset)->array[hashcode(value, (*hashset)->capacity)] = newnode;
     }
     newnode->prev = noderef;
     newnode->value = value;

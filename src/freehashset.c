@@ -9,14 +9,12 @@ void freerec(struct node *node)
     }
 }
 
-void clear(hashset_t *hashset)
+void freehashset(hashset_t *hashset)
 {
     for (int i = 0; i < hashset->capacity; i++)
     {
         freerec(hashset->array[i]);
     }
     free(hashset->array);
-    hashset->array = NULL;
-    hashset->capacity = 0;
-    hashset->size = 0;
+    free(hashset);
 }

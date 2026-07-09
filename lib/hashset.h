@@ -30,19 +30,20 @@ typedef struct hashset
  * Initialise the hash set.
  * @param initialcapacity the default allocated capacity,
  * will be set to zero if no available capacity encountered.
- * @return the initialised hash set.
+ * @return the pointer to the initialised hash set, null if memory
+ * issues occurred.
  */
-hashset_t init(size_t);
+hashset_t * init(size_t);
 
 /**
  * Push an element into the set.
- * @param hashset the pointer to the hash set.
+ * @param hashset the pointer's reference to the hash set.
  * @param value the value to be pushed.
  * @return 0 if the element was already present,
  * 1 if the element has been successfully pushed,
  * -1 if there was no sufficient memory to perform the operation.
  */
-int push(hashset_t *, char *);
+int push(hashset_t **, char *);
 
 /**
  * Pop an element from the set.
@@ -65,7 +66,7 @@ int ispresent(hashset_t, char *);
  * Clears the hash set, it cannot be used after this.
  * @param hashset the pointer to the hash set.
  */
-void clear(hashset_t *);
+void freehashset(hashset_t *);
 
 /**
  * Check and fix the size in the cache.
