@@ -4,6 +4,7 @@
 
 hashset_t *hashset;
 hashset_t *testhashset();
+size_t hashcode(char *, size_t);
 
 #suite makeSureHashCodesAreProducedConsistently
 
@@ -28,33 +29,21 @@ hashset_t *testhashset();
 #suite nodecontainsFunctionShouldWorkAsExpected
 
 #test shouldReturnHelloWhenQueried
-    struct node * noderef;
-    ck_assert_int_eq(1, nodecontains(*hashset, "hello", &noderef));
-    ck_assert_str_eq("hello", noderef->value);
+    hashset = testhashset();
+    ck_assert_str_eq("hello", ispresent(*hashset, "hello"));
+    freehashset(hashset);
 
 #test shouldReturnWorldWhenQueried
-    struct node * noderef;
-    ck_assert_int_eq(1, nodecontains(*hashset, "world", &noderef));
-    ck_assert_str_eq("world", noderef->value);
+    hashset = testhashset();
+    ck_assert_str_eq("world", ispresent(*hashset, "world"));
+    freehashset(hashset);
 
 #test shouldReturnFunWhenQueried
-    struct node * noderef;
-    ck_assert_int_eq(1, nodecontains(*hashset, "fun", &noderef));
-    ck_assert_str_eq("fun", noderef->value);
-
-#test shouldReturnLastNodeWhenNotPresentWordQueried
-    struct node * noderef;
-    ck_assert_int_eq(0, nodecontains(*hashset, "foobar", &noderef));
-    ck_assert_str_eq("fun", noderef->value);
-
-#test shouldReturnEmptyNodeWhenNothingIsInTheArray
-    struct node * noderef;
-    hashset = init(1);
-    ck_assert_int_eq(0, nodecontains(*hashset, "foobar", &noderef));
-    ck_assert_ptr_null(noderef);
-
-#main-pre
     hashset = testhashset();
+    ck_assert_str_eq("fun", ispresent(*hashset, "fun"));
+    freehashset(hashset);
 
-#main-post
+#test shouldReturnNull
+    hashset = testhashset();
+    ck_assert_ptr_null(ispresent(*hashset, "foobar"));
     freehashset(hashset);

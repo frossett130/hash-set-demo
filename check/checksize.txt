@@ -7,15 +7,13 @@ hashset_t *testhashset();
 #suite shouldBeAbleToCheckTheSizeOfASetAndChangeIt
 
 #test shouldNotChangeSizeToCorrectlyInitialisedSet
+    hashset = testhashset();
     ck_assert_int_eq(0, checksize(hashset));
+    freehashset(hashset);
 
 #test shouldChangeSizeToFaultySet
+    hashset = testhashset();
     hashset->size = 0;
     ck_assert_int_eq(1, checksize(hashset));
     ck_assert_int_eq(3, hashset->size);
-
-#main-pre
-    hashset = testhashset();
-
-#main-post
     freehashset(hashset);

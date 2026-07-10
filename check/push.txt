@@ -1,24 +1,30 @@
 #include "../lib/hashset.h"
 #include <stdlib.h>
 
+hashset_t *testhashset();
+
 hashset_t *hashset;
 
 #suite shouldBeAbleToPushElementsIntoASetAndChangeSizeAccordingly
 
 #test shouldReturnZeroIfElementAlreadyPresent
+    hashset = testhashset();
     ck_assert_int_eq(0, push(&hashset, "hello"));
+    freehashset(hashset);
 
 #test shouldEditTheSizeOfTheSetAccordingly
+    hashset = testhashset();
     ck_assert_int_eq(1, push(&hashset, "another string"));
     ck_assert_int_eq(1, push(&hashset, "a beautiful string"));
     ck_assert_int_eq(5, hashset->size);
-    ck_assert_int_eq(1, ispresent(*hashset, "hello"));
-    ck_assert_int_eq(1, ispresent(*hashset, "world"));
-    ck_assert_int_eq(1, ispresent(*hashset, "fun"));
-    ck_assert_int_eq(1, ispresent(*hashset, "another string"));
-    ck_assert_int_eq(1, ispresent(*hashset, "a beautiful string"));
-    ck_assert_int_eq(0, ispresent(*hashset, "nothing"));
+    ck_assert_str_eq("hello", ispresent(*hashset, "hello"));
+    ck_assert_str_eq("world", ispresent(*hashset, "world"));
+    ck_assert_str_eq("fun", ispresent(*hashset, "fun"));
+    ck_assert_str_eq("another string", ispresent(*hashset, "another string"));
+    ck_assert_str_eq("a beautiful string", ispresent(*hashset, "a beautiful string"));
+    ck_assert_ptr_null(ispresent(*hashset, "nothing"));
     ck_assert_int_eq(8, hashset->capacity);
+    freehashset(hashset);
 
 #test shouldPushElementsConsisently
     hashset = init(4);
@@ -26,23 +32,6 @@ hashset_t *hashset;
     ck_assert_int_eq(1, push(&hashset, "world"));
     ck_assert_int_eq(2, hashset->size);
     ck_assert_int_eq(0, checksize(hashset));
-
-#main-pre
-    hashset = init(1);
-    struct node *hello = malloc(sizeof(struct node));
-    struct node *world = malloc(sizeof(struct node));
-    struct node *fun = malloc(sizeof(struct node));
-    hello->value = "hello";
-    world->value = "world";
-    fun->value = "fun";
-    hello->next = world;
-    world->next = fun;
-    fun->next = NULL;
-    hello->prev = NULL;
-    world->prev = hello;
-    fun->prev = world;
-    hashset->array[0] = hello;
-    hashset->size = 3;
-
-#main-post
+    ck_assert_str_eq("hello", ispresent(*hashset, "hello"));
+    ck_assert_str_eq("world", ispresent(*hashset, "world"));
     freehashset(hashset);

@@ -43,7 +43,6 @@ $(RPT_PATH): $(TST_PATH)
 	@rm -f $(ERR_RPT)
 	@./$< | tee $@ || { mv $@ $(ERR_RPT); exit 1; }
 
-$(TST_PATH): CFLAGS += -DLINK_BUILD
 $(TST_PATH): $(TSS_PATH) $(BLD) $(OCK)
 	$(CC) $(CFLAGS) $< $(BLD) $(OCK) -o $@ -lcheck
 

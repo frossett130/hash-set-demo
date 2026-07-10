@@ -2,59 +2,77 @@
 #define MAX_RATIO 0.75
 #define MAX_CAPACITY 1000000
 
-void increasesize(hashset_t **hashset)
+int hashtableiterate(size_t i, hashset_t hashset, hashset_t **newset) {
+    struct node *noderef = hashset.array[i];
+    while (noderef)
+    {
+        int retval = push(newset, noderef->value);
+        if (retval < 0)
+        {
+            return retval;
+        }
+        noderef = noderef->next;
+    }
+    return 1;
+}
+
+int increasecapacity(hashset_t **hashset, size_t newcapacity) {
+   int retval;
+   hashset_t *newset = init(newcapacity);
+   for (size_t i = 0; i < (*hashset)->capacity; i++)
+   {
+       if ((retval = hashtableiterate(i, **hashset, &newset)) < 0) {
+           break;
+       }
+   }
+   if (retval < 0) {
+       freehashset(newset);
+   }
+   else
+   {
+       freehashset(*hashset);
+       *hashset = newset;
+   }
+   return retval;
+}
+
+int resize(hashset_t **hashset)
 {
     int newsize = (*hashset)->size + 1;
     int capacity = (*hashset)->capacity;
     int newcapacity = capacity;
-    while ((float)newsize / (float)newcapacity > MAX_RATIO && newcapacity < MAX_CAPACITY)
+    while ((float)newsize / (float)newcapacity > MAX_RATIO
+            && newcapacity < MAX_CAPACITY)
     {
         newcapacity *= 2;
     }
     if (capacity != newcapacity)
     {
-        hashset_t *newset = init(newcapacity);
-        for (int i = 0; i < capacity; i++)
-        {
-            struct node *noderef = (*hashset)->array[i];
-            while (noderef)
-            {
-                push(&newset, noderef->value);
-                noderef = noderef->next;
-            }
-        }
-        freehashset(*hashset);
-        *hashset = newset;
+        return increasecapacity(hashset, newcapacity);
     }
-    else
-    {
-        (*hashset)->size = newsize;
-    }
+    (*hashset)->size = newsize;
+    return 1;
 }
 
 int push(hashset_t **hashset, char *value)
 {
-    struct node *noderef;
-    if (nodecontains(**hashset, value, &noderef))
+    size_t hash;
+    if (nodecontains(**hashset, value, &hash))
     {
         return 0;
     }
     struct node *newnode = malloc(sizeof(struct node));
-    if (!newnode)
-    {
+    if (!newnode) {
         return -1;
     }
-    if (noderef)
-    {
-        noderef->next = newnode;
-    }
-    else
-    {
-        (*hashset)->array[hashcode(value, (*hashset)->capacity)] = newnode;
-    }
-    newnode->prev = noderef;
+    struct node **oldnode = (*hashset)->array + hash;
+    newnode->next = *oldnode;
+    newnode->prev = NULL;
     newnode->value = value;
-    newnode->next = NULL;
-    increasesize(hashset);
-    return 1;
+    if(*oldnode)
+    {
+        (*oldnode)->prev = newnode;
+    }
+    *oldnode = newnode;
+    return resize(hashset);
 }

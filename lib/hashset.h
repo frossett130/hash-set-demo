@@ -58,9 +58,9 @@ int pop(hashset_t *, char *);
  * Check if an element is present in the set.
  * @param hashset the hash set.
  * @param value the value to be checked
- * @return 0 if not present, 1 if present
+ * @return the matched string, null otherwise.
  */
-int ispresent(hashset_t, char *);
+char *ispresent(hashset_t, char *);
 
 /**
  * Clears the hash set, it cannot be used after this.
@@ -76,6 +76,5 @@ void freehashset(hashset_t *);
 int checksize(hashset_t *);
 
 #ifdef LINK_BUILD
-int nodecontains(hashset_t, char *, struct node **);
-size_t hashcode(char *, size_t);
+struct node *nodecontains(hashset_t, char *, size_t *);
 #endif

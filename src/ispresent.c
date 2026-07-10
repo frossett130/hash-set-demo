@@ -17,32 +17,25 @@ size_t hashcode(char *s, size_t m)
     return retval % m;
 }
 
-int containsrec(char *value, struct node **noderef)
+struct node *containsrec(char *value, struct node *noderef)
 {
-    if (!(*noderef))
+    if (noderef && strcmp(value, noderef->value))
     {
-        return 0;
+        return containsrec(value, noderef->next);
     }
-    if (!strcmp(value, (*noderef)->value))
-    {
-        return 1;
-    }
-    if (!(*noderef)->next)
-    {
-        return 0;
-    }
-    *noderef = (*noderef)->next;
+    return noderef;
+}
+
+struct node *nodecontains(hashset_t hashset, char *value, size_t *hash)
+{
+    *hash = hashcode(value, hashset.capacity);
+    struct node *noderef = hashset.array[*hash];
     return containsrec(value, noderef);
 }
 
-int nodecontains(hashset_t hashset, char *value, struct node **noderef)
+char *ispresent(hashset_t hashset, char *value)
 {
-    *noderef = hashset.array[hashcode(value, hashset.capacity)];
-    return containsrec(value, noderef);
-}
-
-int ispresent(hashset_t hashset, char *value)
-{
-    struct node *_;
-    return nodecontains(hashset, value, &_);
+    size_t _;
+    struct node *node = nodecontains(hashset, value, &_);
+    return node ? node -> value : NULL;
 }
