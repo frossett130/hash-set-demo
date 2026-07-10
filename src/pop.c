@@ -1,8 +1,5 @@
 #include "../lib/hashset.h"
 
-int nodecontains(hashset_t, char *, struct node **);
-size_t hashcode(char *, size_t);
-
 int pop(hashset_t *hashset, char *value)
 {
     struct node *noderef;

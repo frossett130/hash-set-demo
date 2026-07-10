@@ -2,9 +2,6 @@
 #define MAX_RATIO 0.75
 #define MAX_CAPACITY 1000000
 
-int nodecontains(hashset_t, char *, struct node **);
-size_t hashcode(char *, size_t);
-
 void increasesize(hashset_t **hashset)
 {
     int newsize = (*hashset)->size + 1;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 hashset_t *hashset;
+hashset_t *testhashset();
 
 #suite shouldBeAbleToCheckTheSizeOfASetAndChangeIt
 
@@ -14,21 +15,7 @@ hashset_t *hashset;
     ck_assert_int_eq(3, hashset->size);
 
 #main-pre
-    hashset = init(1);
-    struct node *hello = malloc(sizeof(struct node));
-    struct node *world = malloc(sizeof(struct node));
-    struct node *fun = malloc(sizeof(struct node));
-    hello->value = "hello";
-    world->value = "world";
-    fun->value = "fun";
-    hello->next = world;
-    world->next = fun;
-    fun->next = NULL;
-    hello->prev = NULL;
-    world->prev = hello;
-    fun->prev = world;
-    hashset->array[0] = hello;
-    hashset->size = 3;
+    hashset = testhashset();
 
 #main-post
     freehashset(hashset);

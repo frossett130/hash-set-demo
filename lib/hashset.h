@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include <stdlib.h>
 
 /**
  * Node structure of a doubly linked list.
@@ -33,7 +33,7 @@ typedef struct hashset
  * @return the pointer to the initialised hash set, null if memory
  * issues occurred.
  */
-hashset_t * init(size_t);
+hashset_t *init(size_t);
 
 /**
  * Push an element into the set.
@@ -74,3 +74,8 @@ void freehashset(hashset_t *);
  * @return 1 if the size was altered, 0 if nothing was done.
  */
 int checksize(hashset_t *);
+
+#ifdef LINK_BUILD
+int nodecontains(hashset_t, char *, struct node **);
+size_t hashcode(char *, size_t);
+#endif
