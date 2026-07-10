@@ -12,3 +12,4 @@
     ck_assert_ptr_null(hashset->array[1]);
     ck_assert_ptr_null(hashset->array[2]);
     ck_assert_ptr_null(hashset->array[3]);
+    freehashset(hashset);

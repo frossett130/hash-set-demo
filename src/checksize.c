@@ -5,19 +5,17 @@ int checksize(hashset_t *hashset)
     int size = 0;
     for (int i = 0; i < hashset->capacity; i++)
     {
-        struct node * noderef = hashset->array[i];
+        struct node *noderef = hashset->array[i];
         while (noderef)
         {
             size++;
-            noderef = noderef -> next;
+            noderef = noderef->next;
         }
     }
-    if (size == hashset -> size)
+    if (size == hashset->size)
     {
         return 0;
     }
-    
-    hashset -> size = size;
-    
+    hashset->size = size;
     return 1;
 }

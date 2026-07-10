@@ -45,6 +45,7 @@ hashset_t *init(size_t);
  */
 int push(hashset_t **, char *);
 
+//TODO change this return value to char *
 /**
  * Pop an element from the set.
  * @param hashset the pointer to the hash set.
@@ -54,6 +55,7 @@ int push(hashset_t **, char *);
  */
 int pop(hashset_t *, char *);
 
+//TODO change this return value to int
 /**
  * Check if an element is present in the set.
  * @param hashset the hash set.
