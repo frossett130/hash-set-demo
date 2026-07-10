@@ -3,23 +3,27 @@
 
 int main(int argc, char **argv)
 {
-    hashset_t * hashset = init(16);
-    push(&hashset, "hello");
-    push(&hashset, "world");
-    push(&hashset, "fun");
-    push(&hashset, "no");
-    pop(hashset, "no");
+    hashset_t *set = init(4);
     for (int i = 1; i < argc; i++)
     {
-        if (ispresent(*hashset, argv[i]))
+        int result = push(&set, argv[i]);
+        if (!result)
         {
-            printf("`%s` is present\n", argv[i]);
-        }
-        else
-        {
-            printf("`%s` is not present\n", argv[i]);
+            printf("You inserted `%s` at least twice.\n");
         }
     }
-    freehashset(hashset);
+    for (int i = 0; i < set->capacity; i++)
+    {
+        printf("array[%02d]: ", i);
+        struct node *noderef = set->array[i];
+        while (noderef)
+        {
+            printf("`%s` -> ", noderef -> value);
+            noderef = noderef -> next;
+        }
+        printf("\n");
+
+    }
+    freehashset(set);
     return 0;
 }
