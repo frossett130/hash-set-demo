@@ -14,8 +14,6 @@ int main(int argc, char **argv)
                 return 1;
             case 0:
                 printf("You insert `%s` at least twice\n", argv[i]);
-            default:
-                ;
         }
     }
     for (int i = 0; i < set->capacity; i++)
