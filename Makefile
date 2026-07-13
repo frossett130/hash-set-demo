@@ -2,6 +2,7 @@ SHELL=/bin/bash -o pipefail
 
 SRC_PATH = ./src/%.c
 BLD_PATH = ./build/%.o
+BLT_PATH = ./test/%.o
 PRG_PATH = ./%.c
 OUT_PATH = ./%
 CHK_PATH = ./check/%.txt
@@ -12,9 +13,8 @@ RPT_PATH = ./test/%.report.txt
 
 SRC := $(wildcard ./src/*.c)
 BLD := $(patsubst $(SRC_PATH), $(BLD_PATH), $(SRC))
-LIB := $(wildcard ./lib/*.h)
 CCK := $(wildcard ./check/*.c)
-OCK := $(patsubst $(CCK_PATH), $(BLD_PATH), $(CCK))
+BLT := $(patsubst $(CCK_PATH), $(BLT_PATH), $(CCK))
 PRG := $(wildcard ./*.c)
 OUT := $(patsubst $(PRG_PATH), $(OUT_PATH), $(PRG))
 CHK := $(wildcard ./check/*.txt)
@@ -27,32 +27,33 @@ DEP := $(BLD:.o=.d)
 all: test $(OUT)
 
 $(OUT): $(OUT_PATH): $(PRG_PATH) $(BLD)
-	$(CC) $(CFLAGS) $< $(BLD) -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 $(BLD_PATH): CFLAGS += -DLINK_BUILD -MMD -MP
-$(BLD_PATH): $(SRC_PATH) $(LIB)
+$(BLD_PATH): $(SRC_PATH)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 test: $(RPT)
 
 $(RPT_PATH): ERR_RPT = $(@:.txt=_FAILED.txt)
 $(RPT_PATH): $(TST_PATH)
-	@echo "Testing $<..."
+	@echo "Testing $^..."
 	@rm -f $(ERR_RPT)
-	@./$< | tee $@ || { mv $@ $(ERR_RPT); exit 1; }
+	@./$^ | tee $@ || { mv $@ $(ERR_RPT); exit 1; }
 
-$(TST_PATH): $(TSS_PATH) $(BLD) $(OCK)
-	$(CC) $(CFLAGS) $< $(BLD) $(OCK) -o $@ -lcheck
+$(TST_PATH): $(TSS_PATH) $(BLD) $(BLT)
+	$(CC) $(CFLAGS) $^ -o $@ -lcheck
 
-$(OCK): $(CCK)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BLT_PATH): $(CCK_PATH)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 $(TSS_PATH): $(CHK_PATH)
 	@echo "Creating test source code $@..."
 	@command -v checkmk > /dev/null || { echo "checkmk is not available, please install it"; exit 1; }
 	@mkdir -p $(@D)
-	@checkmk $< > $@
+	@checkmk $^ > $@
 
 clean:
 	rm -rf $(OUT) build test
