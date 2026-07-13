@@ -36,7 +36,7 @@ $(BLD_PATH): $(SRC_PATH) $(LIB)
 
 test: $(RPT)
 
-$(RPT_PATH): ERR_RPT = $@_FAILED.txt
+$(RPT_PATH): ERR_RPT = $(@:.txt=_FAILED.txt)
 $(RPT_PATH): $(TST_PATH)
 	@echo "Testing $<..."
 	@rm -f $(ERR_RPT)
