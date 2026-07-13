@@ -1,4 +1,3 @@
 build
 test
-main
-*.d
+hash-set-demo
