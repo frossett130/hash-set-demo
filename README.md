@@ -8,20 +8,20 @@ projects as well, enjoy!
 
 ## Introduction
 
-While complicated data structures are abundant and often overlooked at in
+While complex data structures are abundant and often overlooked at in
 popular developer tools (such as Java, Python, Rust), having them working in C
 requires an explicit declaration. A simple example which is particularly useful
-to delve into data structure is certainly the hash set.
+to delve into those entities is certainly the hash set.
 
-While searching a term in an array has a $0(n)$ time complexity, hash sets in
-most situation will provide time complexity close to $O(1)$, which makes them
+While searching a term in an array has a $0(n)$ time complexity, hash sets will
+provide time complexity close to $O(1)$ in most situations, which makes them
 ideal to store information, and can be easily extended into hash table,
-providing the basic tool for caching.
+opening the way to quick look-ups and caching.
 
 What is presented here is a project showcasing a simple API for interaction with
 a hash set, with a dedicated `Makefile` orchestrating the build and the unit
 testing. The final result will be an executable taking the input arguments and
-arranging them in a hash map.
+arranging them in a hash set.
 
 ## Storing and retrieving data
 
@@ -35,8 +35,8 @@ $$
 
 $N$ is the **capacity** of given set.
 
-This operation is not dependent on $N$, therefore is commonly agreed that this
-algorithm is $O(1)$.
+The time duration of a hash computation for any object is not dependent on $n$,
+therefore is commonly agreed that this algorithm is $O(1)$.
 
 ## Handling data collisions
 
@@ -50,10 +50,10 @@ The resizing can be decided when the ratio between the population of the set and
 its capacity reaches a certain ration, this is called **load factor**, and it is
 usually decided to have a value of 0.75 (as it happens in Java).
 
-Because resizing a set consists in assigning a new hash to each element, it's
-complexity will be $O(n)$ as well, to avoid time complexity issues it is done
-exponentially, so the number of times it will be needed will be around
-$\log(n)$.
+Because resizing a set consists in assigning a new hash to each element, its
+complexity will be $O(n)$ as well, so it is done exponentially, to reduce the
+frequency of such occurrences so the number of times it will be needed will be
+around $\log(n)$.
 
 ## The presented case
 
@@ -150,5 +150,4 @@ structures and building simple command line tools, like a command line
 interpreter, to employ such structures.
 
 As much as educational as this project can be, I would personally like to keep
-this simplicity in future projects, given how little allowed me to develop a
-full CI-CD model.
+this simplicity in future projects.
