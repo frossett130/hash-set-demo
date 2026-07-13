@@ -61,7 +61,7 @@ While all the previous operations are performed under the hood within the high
 level development frameworks, this project provides a way to have a closer look
 at how the elements are stored inside the data structure, as the user has the
 possibility to create a dataset populated by strings. The strings will be the
-executable arguments, and the following input
+executable's arguments, and the following input
 
 ```bash
 ./hash-set-demo this was a very very fun job to do
