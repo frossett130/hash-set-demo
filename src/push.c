@@ -47,7 +47,7 @@ int resize(hashset_t **hashset)
     int newsize = (*hashset)->size + 1;
     int capacity = (*hashset)->capacity;
     int newcapacity = capacity;
-    while ((float)newsize / (float)newcapacity > MAX_RATIO && newcapacity < MAX_CAPACITY)
+    while ((float)newsize / (float)newcapacity > LOAD_FACTOR && newcapacity < MAX_CAPACITY)
     {
         newcapacity *= 2;
     }

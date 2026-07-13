@@ -76,7 +76,7 @@ int checksize(hashset_t *);
 
 #ifdef LINK_BUILD
 #define MAX_STR_LEN 1024
-#define MAX_RATIO 0.75
+#define LOAD_FACTOR 0.75
 #define MAX_CAPACITY 1048576
 struct node *nodecontains(hashset_t, char *restrict, size_t *restrict);
 #endif
