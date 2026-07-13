@@ -6,6 +6,16 @@ This little project is aimed to showcase a simple example of a hash set. It
 provides a build and test lightweight framework which can be reused for other C
 projects as well, enjoy!
 
+## Requirements
+
+* The dev tools including a C compiler
+* the `checkmk` library, is usually available in the `check` package, it can be
+  installed typing the following
+
+```bash
+sudo apt install check
+```
+
 ## Usage
 
 To build the executable, simply type
