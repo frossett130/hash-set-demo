@@ -1,12 +1,12 @@
 #include "../lib/hashset.h"
 
-int pop(hashset_t *hashset, char *value)
+char *pop(hashset_t *hashset, char *value)
 {
     struct node *noderef;
     size_t hash;
     if (!(noderef = nodecontains(*hashset, value, &hash)))
     {
-        return 0;
+        return NULL;
     }
     struct node *prev = noderef->prev;
     struct node *next = noderef->next;
@@ -22,7 +22,8 @@ int pop(hashset_t *hashset, char *value)
     {
         next->prev = prev;
     }
+    char *retval = noderef->value;
     free(noderef);
     hashset->size--;
-    return 1;
+    return value;
 }

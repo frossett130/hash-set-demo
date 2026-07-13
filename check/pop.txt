@@ -7,13 +7,13 @@ hashset_t *testhashset();
 
 #test shouldReturnZeroWhenNonPresentElementRemoved
     hashset = testhashset();
-    ck_assert_int_eq(0, pop(hashset, "tree"));
+    ck_assert_ptr_null(pop(hashset, "tree"));
     ck_assert_int_eq(3, hashset->size);
     freehashset(hashset);
 
 #test shouldReturnOneWhenPresentElementRemoved
     hashset = testhashset();
-    ck_assert_int_eq(1, pop(hashset, "hello"));
+    ck_assert_str_eq("hello", pop(hashset, "hello"));
     ck_assert_int_eq(2, hashset->size);
     ck_assert_ptr_null(ispresent(*hashset, "hello"));
     freehashset(hashset);
