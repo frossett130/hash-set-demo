@@ -9,7 +9,7 @@ size_t hashcode(char *s, size_t m)
     size_t count = 0;
     size_t retval = 0;
     size_t multiplier = 1;
-    while ((p = us[count++]))
+    while (count < MAX_STR_LEN && (p = us[count++]))
     {
         retval += ((size_t)p) * multiplier;
         multiplier *= P;
@@ -19,7 +19,7 @@ size_t hashcode(char *s, size_t m)
 
 struct node *containsrec(char *value, struct node *noderef)
 {
-    if (noderef && strcmp(value, noderef->value))
+    if (noderef && strncmp(value, noderef->value, MAX_STR_LEN))
     {
         return containsrec(value, noderef->next);
     }

@@ -1,0 +1,28 @@
+#include "../lib/hashset.h"
+#define CAPACITY 2
+
+#suite Comprehensive test suite
+
+#tcase Should perform a comprehensive test of all the functions in the API.
+
+#test comprehensiveTest
+    hashset_t *hashset;
+    ck_assert_ptr_nonnull((hashset = init(CAPACITY)));
+    ck_assert_int_eq(1, push(&hashset, "Hello"));
+    ck_assert_int_eq(1, push(&hashset, "World"));
+    ck_assert_int_eq(1, push(&hashset, "This"));
+    ck_assert_int_eq(1, push(&hashset, "Is"));
+    ck_assert_int_eq(1, push(&hashset, "My"));
+    ck_assert_int_eq(1, push(&hashset, "Message"));
+    ck_assert_int_eq(0, push(&hashset, "Message"));
+    ck_assert_int_eq(6, hashset->size);
+    ck_assert_int_eq(8, hashset->capacity);
+    ck_assert_int_eq(0, checksize(hashset));
+    hashset->size = 0;
+    ck_assert_int_eq(1, checksize(hashset));
+    ck_assert_int_eq(6, hashset->size);
+    ck_assert_str_eq("Hello", pop(hashset, "Hello"));
+    ck_assert_str_eq("World", pop(hashset, "World"));
+    ck_assert_str_eq("This", pop(hashset, "This"));
+    ck_assert_ptr_null(pop(hashset, "This"));
+    ck_assert_int_eq(3, hashset->size);

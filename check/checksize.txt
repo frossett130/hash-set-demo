@@ -1,15 +1,18 @@
 #include "../lib/hashset.h"
-#include <stdlib.h>
 
 hashset_t *hashset;
 hashset_t *testhashset();
 
-#suite shouldBeAbleToCheckTheSizeOfASetAndChangeIt
+#suite The API should be able to check the size and change it.
+
+#tcase Should not change size when the set has been correctly initialised.
 
 #test shouldNotChangeSizeToCorrectlyInitialisedSet
     hashset = testhashset();
     ck_assert_int_eq(0, checksize(hashset));
     freehashset(hashset);
+
+#tcase Should change size when faulty set is provided.
 
 #test shouldChangeSizeToFaultySet
     hashset = testhashset();

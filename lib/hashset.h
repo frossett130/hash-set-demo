@@ -43,7 +43,7 @@ hashset_t *init(size_t);
  * 1 if the element has been successfully pushed,
  * -1 if there was no sufficient memory to perform the operation.
  */
-int push(hashset_t **, char *);
+int push(hashset_t **restrict, char *restrict);
 
 /**
  * Pop an element from the set.
@@ -51,7 +51,7 @@ int push(hashset_t **, char *);
  * @param value the value to be popped.
  * @return the popped value if present, null otherwise
  */
-char *pop(hashset_t *, char *);
+char *pop(hashset_t *restrict, char *restrict);
 
 /**
  * Check if an element is present in the set.
@@ -75,5 +75,8 @@ void freehashset(hashset_t *);
 int checksize(hashset_t *);
 
 #ifdef LINK_BUILD
-struct node *nodecontains(hashset_t, char *, size_t *);
+#define MAX_STR_LEN 1024
+#define MAX_RATIO 0.75
+#define MAX_CAPACITY 1048576
+struct node *nodecontains(hashset_t, char *restrict, size_t *restrict);
 #endif

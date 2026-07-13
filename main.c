@@ -3,6 +3,14 @@
 
 int main(int argc, char **argv)
 {
+    if (argc == 1) {
+        puts("USAGE");
+        printf("%s arguments...\n", argv[0]);
+        puts("Showcases the hashset functionalities. A hashset is built with");
+        puts("the arguments in input, and the ensuing hashset structure is");
+        puts("displayed.");
+        return 1;
+    }
     hashset_t *set = init(4);
     for (int i = 1; i < argc; i++)
     {
@@ -11,7 +19,7 @@ int main(int argc, char **argv)
         {
             case -1:
                 printf("Memory allocation error!\n");
-                return 1;
+                return 2;
             case 0:
                 printf("You insert `%s` at least twice\n", argv[i]);
         }

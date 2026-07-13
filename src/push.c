@@ -1,6 +1,4 @@
 #include "../lib/hashset.h"
-#define MAX_RATIO 0.75
-#define MAX_CAPACITY 1000000
 
 int hashtableiterate(size_t i, hashset_t hashset, hashset_t **newset)
 {
@@ -21,6 +19,10 @@ int increasecapacity(hashset_t **hashset, size_t newcapacity)
 {
     int retval;
     hashset_t *newset = init(newcapacity);
+    if (!newset)
+    {
+        return -1;
+    }
     for (size_t i = 0; i < (*hashset)->capacity; i++)
     {
         if ((retval = hashtableiterate(i, **hashset, &newset)) < 0)

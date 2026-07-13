@@ -2,7 +2,7 @@
 
 hashset_t *init(size_t initialcapacity)
 {
-    if (!initialcapacity)
+    if (!initialcapacity || initialcapacity >= MAX_CAPACITY)
     {
         return NULL;
     }

@@ -24,7 +24,6 @@ RPT := $(patsubst $(CHK_PATH), $(RPT_PATH), $(CHK))
 
 DEP := $(BLD:.o=.d)
 
-
 all: test $(OUT)
 
 $(OUT): $(OUT_PATH): $(PRG_PATH) $(BLD)
@@ -32,7 +31,7 @@ $(OUT): $(OUT_PATH): $(PRG_PATH) $(BLD)
 
 $(BLD_PATH): CFLAGS += -DLINK_BUILD -MMD -MP
 $(BLD_PATH): $(SRC_PATH) $(LIB)
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(RPT)
@@ -50,9 +49,10 @@ $(OCK): $(CCK)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(TSS_PATH): $(CHK_PATH)
-	@command -v checkmk || { echo "checkmk is not available, please install it"; exit 1; }
-	mkdir -p $(@D)
-	checkmk $< > $@
+	@echo "Creating test source code $@..."
+	@command -v checkmk > /dev/null || { echo "checkmk is not available, please install it"; exit 1; }
+	@mkdir -p $(@D)
+	@checkmk $< > $@
 
 clean:
 	rm -rf $(OUT) build test
