@@ -32,7 +32,7 @@ $(OUT): $(OUT_PATH): $(PRG_PATH) $(BLD)
 $(BLD_PATH): CFLAGS += -DLINK_BUILD -MMD -MP
 $(BLD_PATH): $(SRC_PATH)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(RPT)
 
@@ -47,7 +47,7 @@ $(TST_PATH): $(TSS_PATH) $(BLD) $(BLT)
 
 $(BLT_PATH): $(CCK_PATH)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(TSS_PATH): $(CHK_PATH)
 	@echo "Creating test source code $@..."
