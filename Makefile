@@ -10,6 +10,8 @@ CCK_PATH = ./check/%.c
 TSS_PATH = ./test/%.c
 TST_PATH = ./test/%.test
 RPT_PATH = ./test/%.report.txt
+CHK_LIBS = $(shell pkg-config --libs check)
+CHK_FLAG = $(shell pkg-config --cflags check)
 
 SRC := $(wildcard ./src/*.c)
 BLD := $(patsubst $(SRC_PATH), $(BLD_PATH), $(SRC))
@@ -42,8 +44,9 @@ $(RPT_PATH): $(TST_PATH)
 	@rm -f $(ERR_RPT)
 	@./$^ | tee $@ || { mv $@ $(ERR_RPT); exit 1; }
 
+$(TST_PATH): CFLAGS += $(CHK_FLAG)
 $(TST_PATH): $(TSS_PATH) $(BLD) $(BLT)
-	$(CC) $(CFLAGS) $^ -o $@ -lcheck
+	$(CC) $(CFLAGS) $^ -o $@ $(CHK_LIBS)
 
 $(BLT_PATH): $(CCK_PATH)
 	@mkdir -p $(@D)
